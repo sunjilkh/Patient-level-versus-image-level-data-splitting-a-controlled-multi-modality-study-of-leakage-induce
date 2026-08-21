@@ -1,19 +1,23 @@
-# The Illusion of Accuracy: Quantifying Augmentation-Induced Data Leakage in Medical Image Classification
+# Split-induced sibling data leakage inflates accuracy in medical image classification
 
-This repository contains the official codebase and executed results for the study **"The Illusion of Accuracy: Quantifying Augmentation-Induced Data Leakage in Medical Image Classification."** 
+This repository contains the official codebase and executed Jupyter notebooks for the study on **augmentation-induced sibling data leakage** in medical image classification.
 
-Our study empirically demonstrates how dataset augmentation—when improperly applied *before* train-test partitioning—creates "sibling leakage." This allows near-identical augmented copies of testing images to leak into the training set, artificially inflating performance metrics while destroying the model's true clinical generalization capabilities.
+Our study empirically demonstrates how random image-level dataset partitioning (the standard practice in many machine learning pipelines) allows near-identical augmented or anatomically adjacent copies of testing images to leak into the training set. This "sibling leakage" artificially inflates performance metrics, creating an illusion of high accuracy while crippling the model's true clinical generalization capabilities.
 
 ## Datasets Investigated
-To ensure robustness against desk-rejection and to prove this is a universal problem across medical AI, we conducted a rigorous 2x2 factorial evaluation across three completely diverse medical imaging domains:
+To ensure robustness and prove this is a universal problem across medical AI, we conducted a rigorous 2x2 factorial evaluation across three diverse medical imaging domains:
 
-1. **Radiology (X-Ray):** `NIH ChestX-ray14` dataset (Effusion vs. Normal)
-2. **Dermatology (Skin):** `ISIC 2020 Melanoma` dataset (Malignant vs. Benign)
-3. **Ophthalmology (Retina):** `Kermany 2018 OCT2017` dataset (Disease vs. Normal)
+1. **Radiology (X-Ray):** `NIH ChestX-ray14` dataset (6,000 images, multiple images per patient)
+2. **Dermatology (Skin):** `ISIC 2020 Melanoma` dataset (1,168 images, lesion siblings)
+3. **Ophthalmology (Retina):** `Kermany OCT2017` dataset (1,200 images, adjacent B-scans)
 
-## The Memorization Quotient (MQ)
-We introduce the **Memorization Quotient (MQ)**, a novel mathematical metric calculated using cosine similarity in the `ResNet-50` embedding space. 
-*   **MQ > 1** mathematically proves that the model relies on low-level, augmentation-invariant patient/camera signatures rather than actual clinical features to make predictions.
+## Four Targeted Analyses
+Instead of relying on a single metric, this repository executes four targeted analyses on a shared, patient-disjoint test fold:
+
+1. **Metric Inflation (McNemar's test):** Evaluates a comprehensive 11-metric panel (AUC, F1, Accuracy, etc.) to prove that the rigorous, patient-disjoint arm statistically outperforms the leaky arm only when isolated from leakage.
+2. **Natural Class Imbalance:** Demonstrates how data leakage masks the severe impact of natural clinical imbalance (e.g., 2% malignant prevalence), falsely portraying models as robust.
+3. **Leakage Severity Escalation:** Establishes categorical sibling thresholds (0%, 25%, 50%, 75%, 100%) to demonstrate how performance linearly inflates relative to the density of leaked siblings.
+4. **XAI Audit (Border-Activation Ratio):** Uses Grad-CAM and LIME to mathematically quantify visual attention. We show that leaky models actively memorize augmentation borders and artifacts rather than true clinical pathology.
 
 ## Reproducibility and Executed Notebooks 
 
