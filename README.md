@@ -1,8 +1,8 @@
 # Split-induced sibling data leakage inflates accuracy in medical image classification
 
-This repository contains the official codebase and executed Jupyter notebooks for the study on **augmentation-induced sibling data leakage** in medical image classification.
+This repository contains the official codebase and executed Jupyter notebooks for the study on **split-induced sibling data leakage** in medical image classification.
 
-Our study empirically demonstrates how random image-level dataset partitioning (the standard practice in many machine learning pipelines) allows near-identical augmented or anatomically adjacent copies of testing images to leak into the training set. This "sibling leakage" artificially inflates performance metrics, creating an illusion of high accuracy while crippling the model's true clinical generalization capabilities.
+Our study empirically demonstrates how random image-level dataset partitioning (the standard practice in many machine learning pipelines) allows near-identical, naturally co-occurring copies of testing images to leak into the training set. This "sibling leakage" artificially inflates performance metrics, creating an illusion of high accuracy while crippling the model's true clinical generalization capabilities.
 
 ## Datasets Investigated
 To ensure robustness and prove this is a universal problem across medical AI, we conducted a rigorous 2x2 factorial evaluation across three diverse medical imaging domains:
@@ -16,8 +16,8 @@ Instead of relying on a single metric, this repository executes four targeted an
 
 1. **Metric Inflation (McNemar's test):** Evaluates a comprehensive 11-metric panel (AUC, F1, Accuracy, etc.) to prove that the rigorous, patient-disjoint arm statistically outperforms the leaky arm only when isolated from leakage.
 2. **Natural Class Imbalance:** Demonstrates how data leakage masks the severe impact of natural clinical imbalance (e.g., 2% malignant prevalence), falsely portraying models as robust.
-3. **Leakage Severity Escalation:** Establishes categorical sibling thresholds (0%, 25%, 50%, 75%, 100%) to demonstrate how performance linearly inflates relative to the density of leaked siblings.
-4. **XAI Audit (Border-Activation Ratio):** Uses Grad-CAM and LIME to mathematically quantify visual attention. We show that leaky models actively memorize augmentation borders and artifacts rather than true clinical pathology.
+3. **Leakage Severity Escalation:** Establishes categorical sibling thresholds (0%, 25%, 50%, 75%, 100%) to demonstrate how performance inflates relative to the density of leaked siblings.
+4. **XAI Audit (Border-Activation Ratio):** Uses Grad-CAM and LIME to mathematically quantify visual attention. We show that leaky models actively memorize technical artifacts and borders rather than true clinical pathology.
 
 ## Reproducibility and Executed Notebooks 
 
